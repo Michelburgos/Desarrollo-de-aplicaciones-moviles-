@@ -35,7 +35,7 @@ export default function App() {
       <img
         src={banner}
         alt="Banner de contactos"
-        style={{ width: "100%", maxWidth: 500 }}
+        style={{ width: "100%", maxWidth: 125 }}
       />
       <h1>Mis contactos</h1>
       <AddContact onAdd={agregarContacto} />
