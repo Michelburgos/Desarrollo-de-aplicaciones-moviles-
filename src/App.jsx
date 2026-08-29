@@ -2,6 +2,7 @@ import { useState } from "react";
 import Loader from "./Loader";
 import AddContact from "./Add";
 import ContactList from "./list";
+import banner from "./assets/banner.png";
 
 export default function App() {
   const [cargando, setCargando] = useState(true);
@@ -9,10 +10,10 @@ export default function App() {
 
   const terminarCarga = () => {
     setContactos([
-      {id: 1, nombre: "Michel", telefono: 323387526452},
-      { id: 2, nombre: "Marta", telefono: 1253647895},
-      { id: 3, nombre: "Jorge", telefono: 523364225},
-      { id: 4, nombre: "Santiago", telefono: 555678924}
+      { id: 1, nombre: "Michel", telefono: 323387526452 },
+      { id: 2, nombre: "Marta", telefono: 1253647895 },
+      { id: 3, nombre: "Jorge", telefono: 523364225 },
+      { id: 4, nombre: "Santiago", telefono: 555678924 },
     ]);
     setCargando(false);
   };
@@ -31,6 +32,11 @@ export default function App() {
 
   return (
     <>
+      <img
+        src={banner}
+        alt="Banner de contactos"
+        style={{ width: "100%", maxWidth: 500 }}
+      />
       <h1>Mis contactos</h1>
       <AddContact onAdd={agregarContacto} />
       <ContactList contactos={contactos} onDelete={eliminarContacto} />
