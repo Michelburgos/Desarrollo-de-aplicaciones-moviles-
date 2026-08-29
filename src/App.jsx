@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Loader from "./Loader";
 import AddContact from "./Add";
-import ContactList from "./list";
+import ContactList from "./List";
 import banner from "./assets/banner.png";
 
 export default function App() {
