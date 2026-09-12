@@ -11,8 +11,8 @@ import {
   IonButtons,
 } from '@ionic/react';
 import { useNavigate } from 'react-router-dom';
-import Add from '../components/Add';
-import Complete from '../components/Complete';
+import Add from '../components/AddTask';
+import Complete from '../components/CompleteTask';
 import Delete from '../components/Delete';
 
 const Home = () => {

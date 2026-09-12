@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Login from './pages/Login';
+import Login from './pages/login';
 import Home from './pages/Home';
 
 /* Core CSS required for Ionic components to work properly */
