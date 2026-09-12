@@ -7,15 +7,27 @@ import {
   IonContent,
   IonList,
   IonItem,
+  IonButton,
+  IonButtons,
 } from '@ionic/react';
-import Add from '../components/AddTask';
-import Complete from '../components/CompleteTask';
+import { useNavigate } from 'react-router-dom';
+import Add from '../components/Add';
+import Complete from '../components/Complete';
 import Delete from '../components/Delete';
 
 const Home = () => {
   const [tasks, setTasks] = useState([]);
+  const navigate = useNavigate();
 
-  // Cargar tareas guardadas al iniciar (se ejecuta solo una vez, con [])
+  // Verificar si el usuario está logueado al entrar
+  useEffect(() => {
+    const logged = localStorage.getItem('logged');
+    if (logged !== 'true') {
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  // Cargar tareas guardadas al iniciar
   useEffect(() => {
     const stored = localStorage.getItem('tasks');
     if (stored) {
@@ -23,7 +35,7 @@ const Home = () => {
     }
   }, []);
 
-  // Guardar tareas cada vez que cambian (se ejecuta cuando cambia "tasks")
+  // Guardar tareas cada vez que cambian
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
@@ -48,11 +60,19 @@ const Home = () => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('logged');
+    navigate('/login');
+  };
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Task Manager</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={handleLogout}>Logout</IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
 
