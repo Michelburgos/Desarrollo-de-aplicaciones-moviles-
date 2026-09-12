@@ -48,6 +48,3 @@ Capturas de pantalla en la carpeta /evidencias
 
 #### Michel Dahiana Burgos Santos
 
-- Tabs de navegación
-- Lista de visitas del día
-- Detalle de visita y cambio de estado
