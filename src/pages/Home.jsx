@@ -8,9 +8,9 @@ import {
   IonList,
   IonItem,
 } from '@ionic/react';
-import Add from '../components/AddTask';
-import Complete from '../components/CompleteTask';
-import Delete from '../components/Delete';
+import Add from './AddTask';
+import Complete from './CompleteTask';
+import Delete from './Delete';
 
 const Home = () => {
   const [tasks, setTasks] = useState([]);
