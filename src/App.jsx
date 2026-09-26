@@ -1,9 +1,13 @@
 import { Navigate, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { AuthProvider } from './context/AuthContext';
+import { TasksProvider } from './context/TasksContext';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import AddTask from './pages/AddTask';
+import TaskDetail from './pages/TaskDetail';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -21,15 +25,7 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
-/* import '@ionic/react/css/palettes/dark.always.css'; */
-/* import '@ionic/react/css/palettes/dark.class.css'; */
+/* Ionic Dark Mode */
 import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
@@ -39,14 +35,21 @@ setupIonicReact();
 
 const App = () => (
   <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/home" element={<Home />} />
-        <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </IonRouterOutlet>
-    </IonReactRouter>
+    <AuthProvider>
+      <TasksProvider>
+        <IonReactRouter>
+          <IonRouterOutlet>
+            <Route path="/home" element={<Home />} />
+            <Route path="/add-task" element={<AddTask />} />
+            <Route path="/edit-task/:id" element={<AddTask />} />
+            <Route path="/task/:id" element={<TaskDetail />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Navigate to="/home" replace />} />
+          </IonRouterOutlet>
+        </IonReactRouter>
+      </TasksProvider>
+    </AuthProvider>
   </IonApp>
 );
 

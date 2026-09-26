@@ -1,22 +1,23 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   IonPage,
   IonContent,
   IonInput,
   IonButton
 } from "@ionic/react";
-import { useHistory } from "react-router-dom";
-import { auth } from "../firebase/config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
-export function Register() {
+function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const history = useHistory();
+    const navigate = useNavigate();
+    const { register } = useContext(AuthContext);
 
     const handleRegister = async (e) => {
-        try {createUserWithEmailAndPassword(auth, email, password);
-            history.push("/home");
+        try {
+            await register(email, password);
+            navigate("/home");
         } catch (error) {
             console.error("Error signing up:", error);
             alert("Error signing up: " + error.message);
@@ -29,12 +30,12 @@ export function Register() {
                 <h1>Register</h1>
                 <IonInput
                     placeholder="Email"
-                    ionChange={(e) => setEmail(e.detail.value)}
+                    onIonChange={(e) => setEmail(e.detail.value)}
                 />
                 <IonInput
                     placeholder="Password"
                     type="password"
-                    ionChange={(e) => setPassword(e.detail.value)}
+                    onIonChange={(e) => setPassword(e.detail.value)}
                 />
                 <IonButton expand="block" onClick={handleRegister}>
                     Register
@@ -43,3 +44,5 @@ export function Register() {
         </IonPage>
     );
 }
+
+export default Register;

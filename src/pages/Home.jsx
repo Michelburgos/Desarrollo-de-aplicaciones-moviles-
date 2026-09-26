@@ -1,51 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useContext } from 'react';
 import {
   IonPage,
   IonHeader,
   IonToolbar,
   IonTitle,
+  IonButtons,
+  IonButton,
   IonContent,
   IonList,
   IonItem,
+  IonLabel,
 } from '@ionic/react';
-import Add from './AddTask';
+import { useNavigate } from 'react-router-dom';
+import { TasksContext } from '../context/TasksContext';
+import { AuthContext } from '../context/AuthContext';
 import Complete from './CompleteTask';
 import Delete from './Delete';
 
 const Home = () => {
-  const [tasks, setTasks] = useState([]);
+  const { tasks, toggleTask, deleteTask } = useContext(TasksContext);
+  const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  // Cargar tareas guardadas al iniciar (se ejecuta solo una vez, con [])
-  useEffect(() => {
-    const stored = localStorage.getItem('tasks');
-    if (stored) {
-      setTasks(JSON.parse(stored));
-    }
-  }, []);
-
-  // Guardar tareas cada vez que cambian (se ejecuta cuando cambia "tasks")
-  useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }, [tasks]);
-
-  const addTask = (title) => {
-    const newTask = { id: Date.now(), title: title, completed: false };
-    setTasks([...tasks, newTask]);
-  };
-
-  const toggleTask = (id) => {
-    setTasks(
-      tasks.map((task) => {
-        if (task.id === id) {
-          return { ...task, completed: !task.completed };
-        }
-        return task;
-      })
-    );
-  };
-
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
   };
 
   return (
@@ -53,16 +32,23 @@ const Home = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Task Manager</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={handleLogout}>Cerrar sesión</IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
 
       <IonContent className="ion-padding">
-        <Add onAddTask={addTask} />
+        <IonButton expand="block" onClick={() => navigate('/add-task')}>
+          Nueva tarea
+        </IonButton>
 
         <IonList>
           {tasks.map((task) => (
             <IonItem key={task.id}>
-              {task.title} {task.completed ? '(Completada)' : ''}
+              <IonLabel onClick={() => navigate(`/task/${task.id}`)}>
+                {task.title} {task.completed ? '(Completada)' : ''}
+              </IonLabel>
               <Complete task={task} onToggle={toggleTask} />
               <Delete task={task} onDelete={deleteTask} />
             </IonItem>
