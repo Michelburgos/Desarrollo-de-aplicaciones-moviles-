@@ -1,59 +1,42 @@
-import { useContext } from 'react';
 import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonButton,
-  IonContent,
-  IonList,
-  IonItem,
-  IonLabel,
-} from '@ionic/react';
-import { useNavigate } from 'react-router-dom';
-import { TasksContext } from '../context/TasksContext';
-import { AuthContext } from '../context/AuthContext';
-import Complete from './CompleteTask';
-import Delete from './Delete';
+  IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton,
+} from "@ionic/react";
+import { useNavigate } from "react-router-dom";
+
+// Un botón por cada sensor
+const sensors = [
+  { label: "Geolocation", path: "/geolocation" },
+  { label: "Camera", path: "/camera" },
+  { label: "Accelerometer", path: "/accelerometer" },
+  { label: "Device", path: "/device" },
+  { label: "Haptics", path: "/haptics" },
+  { label: "Filesystem", path: "/filesystem" },
+  { label: "Local Notifications", path: "/local-notifications" },
+  { label: "Push Notifications", path: "/push-notifications" },
+];
 
 const Home = () => {
-  const { tasks, toggleTask, deleteTask } = useContext(TasksContext);
-  const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/login');
-  };
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Task Manager</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={handleLogout}>Cerrar sesión</IonButton>
-          </IonButtons>
+          <IonTitle>Sensores</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent className="ion-padding">
-        <IonButton expand="block" onClick={() => navigate('/add-task')}>
-          Nueva tarea
-        </IonButton>
-
-        <IonList>
-          {tasks.map((task) => (
-            <IonItem key={task.id}>
-              <IonLabel onClick={() => navigate(`/task/${task.id}`)}>
-                {task.title} {task.completed ? '(Completada)' : ''}
-              </IonLabel>
-              <Complete task={task} onToggle={toggleTask} />
-              <Delete task={task} onDelete={deleteTask} />
-            </IonItem>
-          ))}
-        </IonList>
+        {sensors.map((s) => (
+          <IonButton
+            key={s.path}
+            expand="block"
+            className="ion-margin-bottom"
+            onClick={() => navigate(s.path)}
+          >
+            {s.label}
+          </IonButton>
+        ))}
       </IonContent>
     </IonPage>
   );
