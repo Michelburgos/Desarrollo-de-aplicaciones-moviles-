@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import {
-  IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
+  IonPage, IonHeader, IonToolbar, IonTitle, IonButtons,
   IonContent, IonItem, IonLabel, IonInput, IonButton, IonList,
   IonSpinner, IonText, IonIcon,
 } from "@ionic/react";
@@ -9,6 +9,7 @@ import { AuthContext } from "../context/AuthContext";
 import useCollection from "../hooks/useCollection";
 import useNetwork from "../hooks/useNetwork";
 import NetworkBanner from "../components/NetworkBanner";
+import LogoutButton from "../components/LogoutButton";
 
 const Contacts = () => {
   const { user } = useContext(AuthContext);
@@ -20,7 +21,7 @@ const Contacts = () => {
   const [telefono, setTelefono] = useState("");
   const [editando, setEditando] = useState(null);
 
-  // Solo los contactos del usuario logueado
+
   const filters = [["uid", "==", user?.uid]];
 
   useEffect(() => {
@@ -57,10 +58,10 @@ const Contacts = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/home" />
-          </IonButtons>
           <IonTitle>Contactos</IonTitle>
+          <IonButtons slot="end">
+            <LogoutButton />
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
 

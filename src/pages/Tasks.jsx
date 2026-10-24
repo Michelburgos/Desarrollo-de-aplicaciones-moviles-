@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import {
-  IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
+  IonPage, IonHeader, IonToolbar, IonTitle, IonButtons,
   IonContent, IonItem, IonLabel, IonInput, IonButton, IonList,
   IonSpinner, IonText, IonIcon,
 } from "@ionic/react";
@@ -9,11 +9,12 @@ import { AuthContext } from "../context/AuthContext";
 import useRealTimeCollection from "../hooks/useRealTimeCollection";
 import useNetwork from "../hooks/useNetwork";
 import NetworkBanner from "../components/NetworkBanner";
+import LogoutButton from "../components/LogoutButton";
 
 const Tasks = () => {
   const { user } = useContext(AuthContext);
   const { isOnline } = useNetwork();
-  // No hace falta getAll: onValue refresca los resultados solo
+ 
   const { results, isPending, error, add, update, deleteDoc } =
     useRealTimeCollection(user ? `tasks/${user.uid}` : null);
 
@@ -34,10 +35,10 @@ const Tasks = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/home" />
-          </IonButtons>
           <IonTitle>Tareas</IonTitle>
+          <IonButtons slot="end">
+            <LogoutButton />
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
 

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import {
-  IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
+  IonPage, IonHeader, IonToolbar, IonTitle, IonButtons,
   IonContent, IonItem, IonLabel, IonInput, IonButton, IonList,
   IonSpinner, IonText, IonIcon,
 } from "@ionic/react";
 import { trashOutline, createOutline } from "ionicons/icons";
 import useDexie from "../hooks/useDexie";
 import NetworkBanner from "../components/NetworkBanner";
+import LogoutButton from "../components/LogoutButton";
 
 const Frutas = () => {
   const [nombre, setNombre] = useState("");
@@ -37,10 +38,10 @@ const Frutas = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/home" />
-          </IonButtons>
           <IonTitle>Frutas</IonTitle>
+          <IonButtons slot="end">
+            <LogoutButton />
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
 
