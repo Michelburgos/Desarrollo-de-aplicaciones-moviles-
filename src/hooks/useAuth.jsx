@@ -9,26 +9,23 @@ import { auth } from "../firebase/config";
 
 export function useAuth() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); 
 
-  // Escucha los cambios de sesión de Firebase (login/logout)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setLoading(false);
     });
     return () => unsubscribe();
   }, []);
 
-  const login = async (email, password) => {
-    await signInWithEmailAndPassword(auth, email, password);
-  };
+  const login = (email, password) =>
+    signInWithEmailAndPassword(auth, email, password);
 
-  const register = async (email, password) => {
-    await createUserWithEmailAndPassword(auth, email, password);
-  };
+  const register = (email, password) =>
+    createUserWithEmailAndPassword(auth, email, password);
 
-  const logout = async () => {
-    await signOut(auth);
-  };
+  const logout = () => signOut(auth);
 
-  return { user, login, register, logout };
+  return { user, loading, login, register, logout };
 }

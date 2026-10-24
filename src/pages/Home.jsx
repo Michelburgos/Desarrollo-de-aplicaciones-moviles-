@@ -1,37 +1,26 @@
-import { useContext } from 'react';
+import { useContext } from "react";
 import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonButton,
-  IonContent,
-  IonList,
-  IonItem,
-  IonLabel,
-} from '@ionic/react';
-import { useNavigate } from 'react-router-dom';
-import { TasksContext } from '../context/TasksContext';
-import { AuthContext } from '../context/AuthContext';
-import Complete from './CompleteTask';
-import Delete from './Delete';
+  IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton,
+  IonContent, IonList, IonItem, IonLabel,
+} from "@ionic/react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import NetworkBanner from "../components/NetworkBanner";
 
 const Home = () => {
-  const { tasks, toggleTask, deleteTask } = useContext(TasksContext);
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logout();
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Task Manager</IonTitle>
+          <IonTitle>Inicio</IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={handleLogout}>Cerrar sesión</IonButton>
           </IonButtons>
@@ -39,20 +28,18 @@ const Home = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
-        <IonButton expand="block" onClick={() => navigate('/add-task')}>
-          Nueva tarea
-        </IonButton>
-
+        <p>Hola, {user?.email}</p>
+        <NetworkBanner />
         <IonList>
-          {tasks.map((task) => (
-            <IonItem key={task.id}>
-              <IonLabel onClick={() => navigate(`/task/${task.id}`)}>
-                {task.title} {task.completed ? '(Completada)' : ''}
-              </IonLabel>
-              <Complete task={task} onToggle={toggleTask} />
-              <Delete task={task} onDelete={deleteTask} />
-            </IonItem>
-          ))}
+          <IonItem button onClick={() => navigate("/contacts")}>
+            <IonLabel>Contactos (Firebase)</IonLabel>
+          </IonItem>
+          <IonItem button onClick={() => navigate("/tasks")}>
+            <IonLabel>Tareas (Realtime)</IonLabel>
+          </IonItem>
+          <IonItem button onClick={() => navigate("/fruits")}>
+            <IonLabel>Frutas (Dexie)</IonLabel>
+          </IonItem>
         </IonList>
       </IonContent>
     </IonPage>
