@@ -12,7 +12,7 @@ function Login() {
   const handleLogin = async () => {
     try {
       await login(email, password);
-      navigate("/contacts");
+      navigate("/missions");
     } catch (error) {
       alert("Error al iniciar sesión: " + error.message);
     }

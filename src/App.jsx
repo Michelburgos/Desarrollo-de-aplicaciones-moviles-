@@ -5,15 +5,16 @@ import {
   IonIcon, IonLabel, setupIonicReact,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { peopleOutline, checkboxOutline, nutritionOutline } from "ionicons/icons";
+import { flagOutline, statsChartOutline, trophyOutline } from "ionicons/icons";
 
 import { AuthProvider, AuthContext } from "./context/AuthContext";
+import { MissionsProvider } from "./context/MissionsContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Contacts from "./pages/Contacts";
-import Tasks from "./pages/Tasks";
-import Frutas from "./pages/Frutas";
+import Missions from "./pages/Missions";
+import Results from "./pages/Results";
+import Ranking from "./pages/Ranking";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -34,7 +35,7 @@ const AppTabs = () => {
   const { user } = useContext(AuthContext);
   const { pathname } = useLocation();
 
-  
+  // La barra de tabs solo se ve con sesión iniciada y fuera de login/register
   const showTabBar =
     !!user && pathname !== "/login" && pathname !== "/register";
 
@@ -43,24 +44,24 @@ const AppTabs = () => {
       <IonRouterOutlet>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/contacts" element={<ProtectedRoute><Contacts /></ProtectedRoute>} />
-        <Route path="/tasks" element={<ProtectedRoute><Tasks /></ProtectedRoute>} />
-        <Route path="/fruits" element={<ProtectedRoute><Frutas /></ProtectedRoute>} />
-        <Route path="/" element={<Navigate to="/contacts" replace />} />
+        <Route path="/missions" element={<ProtectedRoute><Missions /></ProtectedRoute>} />
+        <Route path="/results" element={<ProtectedRoute><Results /></ProtectedRoute>} />
+        <Route path="/ranking" element={<ProtectedRoute><Ranking /></ProtectedRoute>} />
+        <Route path="/" element={<Navigate to="/missions" replace />} />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom" style={{ display: showTabBar ? "flex" : "none" }}>
-        <IonTabButton tab="contacts" href="/contacts">
-          <IonIcon icon={peopleOutline} />
-          <IonLabel>Contactos</IonLabel>
+        <IonTabButton tab="missions" href="/missions">
+          <IonIcon icon={flagOutline} />
+          <IonLabel>Misiones</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="tasks" href="/tasks">
-          <IonIcon icon={checkboxOutline} />
-          <IonLabel>Tareas</IonLabel>
+        <IonTabButton tab="results" href="/results">
+          <IonIcon icon={statsChartOutline} />
+          <IonLabel>Resultados</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="fruits" href="/fruits">
-          <IonIcon icon={nutritionOutline} />
-          <IonLabel>Frutas</IonLabel>
+        <IonTabButton tab="ranking" href="/ranking">
+          <IonIcon icon={trophyOutline} />
+          <IonLabel>Ranking</IonLabel>
         </IonTabButton>
       </IonTabBar>
     </IonTabs>
@@ -70,9 +71,11 @@ const AppTabs = () => {
 const App = () => (
   <IonApp>
     <AuthProvider>
-      <IonReactRouter>
-        <AppTabs />
-      </IonReactRouter>
+      <MissionsProvider>
+        <IonReactRouter>
+          <AppTabs />
+        </IonReactRouter>
+      </MissionsProvider>
     </AuthProvider>
   </IonApp>
 );

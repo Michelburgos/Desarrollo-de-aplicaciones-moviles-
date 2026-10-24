@@ -12,7 +12,7 @@ function Register() {
   const handleRegister = async () => {
     try {
       await register(email, password);
-      navigate("/contacts");
+      navigate("/missions");
     } catch (error) {
       alert("Error al registrarse: " + error.message);
     }
